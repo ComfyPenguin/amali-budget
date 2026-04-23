@@ -60,7 +60,11 @@ export default function ProductCard({ product, onChange, onDelete }: Props) {
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">
             {/* Badge fuente */}
-            <span className="inline-block text-[11px] font-semibold px-2 py-0.5 rounded-pill bg-[#f5f5f5] dark:bg-[#242424] text-[#898989] mb-1.5">
+            <span className={`inline-block text-[11px] font-semibold px-2 py-0.5 rounded-pill mb-1.5 ${
+              product.source === 'amazon'
+                ? 'bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400'
+                : 'bg-red-50 dark:bg-red-950 text-red-600 dark:text-red-400'
+            }`}>
               {product.source === 'amazon' ? 'Amazon' : 'AliExpress'}
             </span>
             {/* Título */}
