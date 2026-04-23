@@ -10,15 +10,17 @@ interface Props {
 export default function ProductList({ products, onChange, onDelete }: Props) {
   if (products.length === 0) {
     return (
-      <div className="text-center py-20 text-gray-400">
-        <p className="text-5xl mb-3">🛒</p>
-        <p className="text-sm">Añade productos pegando una URL de Amazon o AliExpress.</p>
+      <div className="text-center py-20">
+        <p className="text-4xl mb-3 opacity-20">◻</p>
+        <p className="text-sm text-[#898989]">
+          Añade productos pegando una URL de Amazon o AliExpress.
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-2.5">
       {products.map((p) => (
         <ProductCard key={p.id} product={p} onChange={onChange} onDelete={onDelete} />
       ))}
