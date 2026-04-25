@@ -20,7 +20,7 @@ export default function ProductList({ products, onChange, onDelete }: Props) {
   }
 
   return (
-    <div className="flex flex-col gap-2.5">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
       {products.map((p) => (
         <ProductCard key={p.id} product={p} onChange={onChange} onDelete={onDelete} />
       ))}

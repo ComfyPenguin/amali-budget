@@ -35,10 +35,12 @@ export default function AliexpressSetup() {
     }, 3000);
   }
 
-  if (configured === null) return null;
+  if (configured === null) return (
+    <div className="p-3.5 rounded-xl bg-white dark:bg-[#1a1a1a] shadow-card h-[62px]" />
+  );
 
   return (
-    <div className="mb-5 p-3.5 rounded-xl bg-white dark:bg-[#1a1a1a] shadow-card flex items-start justify-between gap-3">
+    <div className="p-3.5 rounded-xl bg-white dark:bg-[#1a1a1a] shadow-card flex items-start justify-between gap-3">
       <div className="min-w-0">
         <div className="flex items-center gap-2 mb-0.5">
           {/* Indicador de estado */}

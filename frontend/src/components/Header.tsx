@@ -50,7 +50,7 @@ interface Props {
 export default function Header({ theme, setTheme }: Props) {
   return (
     <header className="sticky top-0 z-50 bg-white dark:bg-[#111111] shadow-nav">
-      <div className="max-w-2xl mx-auto px-4 h-14 flex items-center justify-between">
+      <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
 
         {/* Logo + nombre */}
         <div className="flex items-center gap-2.5">

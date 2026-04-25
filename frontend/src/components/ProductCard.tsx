@@ -15,6 +15,7 @@ function formatCurrency(value: number, currency: string) {
 export default function ProductCard({ product, onChange, onDelete }: Props) {
   const [qty, setQty] = useState(product.quantity);
   const [saving, setSaving] = useState(false);
+  const committedQty = React.useRef(product.quantity);
 
   const subtotal = product.price * qty;
 
@@ -25,10 +26,11 @@ export default function ProductCard({ product, onChange, onDelete }: Props) {
   }
 
   async function handleQtyBlur() {
-    if (qty === product.quantity) return;
+    if (qty === committedQty.current) return;
     setSaving(true);
     try {
       const updated = await updateQuantity(product.id, qty);
+      committedQty.current = updated.quantity;
       onChange(updated);
     } finally {
       setSaving(false);
@@ -41,25 +43,25 @@ export default function ProductCard({ product, onChange, onDelete }: Props) {
   }
 
   return (
-    <div className="flex gap-4 p-4 bg-white dark:bg-[#1a1a1a] rounded-xl shadow-card">
+    <div className="flex flex-col bg-white dark:bg-[#1a1a1a] rounded-xl shadow-card overflow-hidden">
       {/* Imagen */}
-      <a href={product.url} target="_blank" rel="noopener noreferrer" className="shrink-0">
+      <a href={product.url} target="_blank" rel="noopener noreferrer" className="block">
         <img
           src={product.image}
           alt={product.title}
-          className="w-[72px] h-[72px] object-contain rounded-lg bg-[#f5f5f5] dark:bg-[#242424]"
+          className="w-full h-36 object-contain bg-[#f5f5f5] dark:bg-[#242424]"
           onError={(e) => {
             (e.target as HTMLImageElement).src =
-              'https://placehold.co/72x72/f5f5f5/898989?text=–';
+              'https://placehold.co/400x144/f5f5f5/898989?text=–';
           }}
         />
       </a>
 
       {/* Contenido */}
-      <div className="flex-1 min-w-0">
+      <div className="flex flex-col flex-1 p-3.5 gap-3">
+        {/* Badge + título + eliminar */}
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">
-            {/* Badge fuente */}
             <span className={`inline-block text-[11px] font-semibold px-2 py-0.5 rounded-pill mb-1.5 ${
               product.source === 'amazon'
                 ? 'bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400'
@@ -67,7 +69,6 @@ export default function ProductCard({ product, onChange, onDelete }: Props) {
             }`}>
               {product.source === 'amazon' ? 'Amazon' : 'AliExpress'}
             </span>
-            {/* Título */}
             <a
               href={product.url}
               target="_blank"
@@ -77,8 +78,6 @@ export default function ProductCard({ product, onChange, onDelete }: Props) {
               {product.title}
             </a>
           </div>
-
-          {/* Botón eliminar */}
           <button
             onClick={handleDelete}
             className="shrink-0 w-7 h-7 flex items-center justify-center text-[#898989] hover:text-[#242424] dark:hover:text-white hover:bg-[#f5f5f5] dark:hover:bg-[#242424] rounded-lg transition-all text-lg leading-none"
@@ -89,13 +88,16 @@ export default function ProductCard({ product, onChange, onDelete }: Props) {
         </div>
 
         {/* Precio + cantidad + subtotal */}
-        <div className="mt-3 flex items-center gap-4 flex-wrap">
-          <span className="text-base font-bold text-[#242424] dark:text-white tracking-tight">
-            {formatCurrency(product.price, product.currency)}
-          </span>
+        <div className="flex items-center justify-between gap-2 pt-2 border-t border-[#f5f5f5] dark:border-[#242424]">
+          <div>
+            <p className="text-[11px] text-[#898989]">Precio</p>
+            <p className="text-sm font-bold text-[#242424] dark:text-white tracking-tight">
+              {formatCurrency(product.price, product.currency)}
+            </p>
+          </div>
 
           <div className="flex items-center gap-1.5">
-            <label className="text-xs text-[#898989]">Cant.</label>
+            <label className="text-[11px] text-[#898989]">Cant.</label>
             <input
               type="number"
               min={1}
@@ -103,14 +105,15 @@ export default function ProductCard({ product, onChange, onDelete }: Props) {
               onChange={handleQtyChange}
               onBlur={handleQtyBlur}
               disabled={saving}
-              className="w-14 px-2 py-1 text-center bg-[#f5f5f5] dark:bg-[#242424] text-[#242424] dark:text-white rounded-md text-sm outline-none shadow-inset disabled:opacity-50"
+              className="w-12 px-2 py-1 text-center bg-[#f5f5f5] dark:bg-[#242424] text-[#242424] dark:text-white rounded-md text-sm outline-none shadow-inset disabled:opacity-50"
             />
           </div>
 
-          <div className="text-sm text-[#898989]">
-            <span className="font-semibold text-[#242424] dark:text-white">
+          <div>
+            <p className="text-[11px] text-[#898989]">Subtotal</p>
+            <p className="text-sm font-bold text-[#242424] dark:text-white tracking-tight">
               {formatCurrency(subtotal, product.currency)}
-            </span>
+            </p>
           </div>
         </div>
       </div>

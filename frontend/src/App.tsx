@@ -13,11 +13,11 @@ export default function App() {
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    getProducts().then(setProducts).catch(console.error);
+    getProducts().then((p) => setProducts([...p].reverse())).catch(console.error);
   }, []);
 
   function handleAdd(product: Product) {
-    setProducts((prev) => [...prev, product]);
+    setProducts((prev) => [product, ...prev]);
   }
 
   function handleChange(updated: Product) {
@@ -31,11 +31,13 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#f5f5f5] dark:bg-[#0f0f0f]">
       <Header theme={theme} setTheme={setTheme} />
-      <main className="max-w-2xl mx-auto px-4 py-8">
-        <AliexpressSetup />
-        <AddProduct onAdd={handleAdd} />
+      <main className="max-w-5xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-6 items-start">
         <ProductList products={products} onChange={handleChange} onDelete={handleDelete} />
-        <Summary products={products} />
+        <div className="lg:sticky lg:top-[88px] flex flex-col gap-3">
+          <AliexpressSetup />
+          <AddProduct onAdd={handleAdd} />
+          <Summary products={products} />
+        </div>
       </main>
     </div>
   );

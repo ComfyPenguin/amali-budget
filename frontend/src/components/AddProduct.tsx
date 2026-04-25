@@ -30,20 +30,20 @@ export default function AddProduct({ onAdd }: Props) {
   }
 
   return (
-    <div className="mb-5">
-      <form onSubmit={handleSubmit} className="flex gap-2">
+    <div className="p-4 rounded-xl bg-white dark:bg-[#1a1a1a] shadow-card">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-2">
         <input
           type="text"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           placeholder="Pega una URL de Amazon o AliExpress..."
           disabled={loading}
-          className="flex-1 px-4 py-2.5 bg-white dark:bg-[#1a1a1a] text-[#242424] dark:text-white placeholder-[#898989] rounded-lg text-sm outline-none shadow-field focus:shadow-field disabled:opacity-50"
+          className="w-full px-4 py-2.5 bg-[#f5f5f5] dark:bg-[#242424] text-[#242424] dark:text-white placeholder-[#898989] rounded-lg text-sm outline-none shadow-inset disabled:opacity-50"
         />
         <button
           type="submit"
           disabled={loading || !url.trim()}
-          className="px-5 py-2.5 bg-[#242424] dark:bg-white text-white dark:text-[#242424] rounded-lg text-sm font-semibold hover:opacity-70 transition-opacity disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2 whitespace-nowrap"
+          className="w-full py-2.5 bg-[#242424] dark:bg-white text-white dark:text-[#242424] rounded-lg text-sm font-semibold hover:opacity-70 transition-opacity disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
           {loading ? (
             <>
