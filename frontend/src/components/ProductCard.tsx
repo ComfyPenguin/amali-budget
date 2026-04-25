@@ -21,7 +21,7 @@ export default function ProductCard({ product, onChange, onDelete, highlighted }
   const subtotal = product.price * qty;
 
   function handleQtyChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const val = Math.max(1, parseInt(e.target.value) || 1);
+    const val = Math.max(0, parseInt(e.target.value) || 0);
     setQty(val);
     onChange({ ...product, quantity: val });
   }
@@ -68,9 +68,11 @@ export default function ProductCard({ product, onChange, onDelete, highlighted }
                 ? 'bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400'
                 : product.source === 'aliexpress'
                 ? 'bg-red-50 dark:bg-red-950 text-red-600 dark:text-red-400'
-                : 'bg-yellow-50 dark:bg-yellow-950 text-yellow-600 dark:text-yellow-400'
+                : product.source === 'ikea'
+                ? 'bg-yellow-50 dark:bg-yellow-950 text-yellow-600 dark:text-yellow-400'
+                : 'bg-[#f5f5f5] dark:bg-[#242424] text-[#898989]'
             }`}>
-              {product.source === 'amazon' ? 'Amazon' : product.source === 'aliexpress' ? 'AliExpress' : 'IKEA'}
+              {product.source === 'amazon' ? 'Amazon' : product.source === 'aliexpress' ? 'AliExpress' : product.source === 'ikea' ? 'IKEA' : 'Manual'}
             </span>
             <a
               href={product.url}
@@ -103,7 +105,7 @@ export default function ProductCard({ product, onChange, onDelete, highlighted }
             <label className="text-[11px] text-[#898989]">Cant.</label>
             <input
               type="number"
-              min={1}
+              min={0}
               value={qty}
               onChange={handleQtyChange}
               onBlur={handleQtyBlur}

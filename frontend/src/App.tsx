@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Product } from './types';
-import { getProducts } from './services/api';
+import { getProducts, refreshProducts } from './services/api';
 import { useTheme } from './hooks/useTheme';
 import Header from './components/Header';
 import AddProduct from './components/AddProduct';
@@ -12,9 +12,20 @@ export default function App() {
   const { theme, setTheme } = useTheme();
   const [products, setProducts] = useState<Product[]>([]);
   const [highlightedId, setHighlightedId] = useState<string | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
-    getProducts().then((p) => setProducts([...p].reverse())).catch(console.error);
+    getProducts()
+      .then((p) => {
+        setProducts([...p].reverse());
+        if (p.length === 0) return;
+        setRefreshing(true);
+        return refreshProducts()
+          .then((updated) => setProducts([...updated].reverse()))
+          .catch(console.error)
+          .finally(() => setRefreshing(false));
+      })
+      .catch(console.error);
   }, []);
 
   function handleAdd(product: Product) {
@@ -45,7 +56,15 @@ export default function App() {
     <div className="min-h-screen bg-[#f5f5f5] dark:bg-[#0f0f0f]">
       <Header theme={theme} setTheme={setTheme} />
       <main className="max-w-5xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-6 items-start">
-        <ProductList products={products} onChange={handleChange} onDelete={handleDelete} highlightedId={highlightedId} />
+        <div className="flex flex-col gap-2.5">
+          {refreshing && (
+            <div className="flex items-center gap-2 text-xs text-[#898989]">
+              <span className="w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin shrink-0" />
+              Actualizando precios...
+            </div>
+          )}
+          <ProductList products={products} onChange={handleChange} onDelete={handleDelete} highlightedId={highlightedId} />
+        </div>
         <div className="order-first lg:order-last lg:sticky lg:top-[88px] flex flex-col gap-3">
           <AliexpressSetup />
           <AddProduct products={products} onAdd={handleAdd} onDuplicate={handleDuplicate} />

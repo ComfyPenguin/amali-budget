@@ -39,3 +39,8 @@ export async function updateQuantity(id: string, quantity: number): Promise<Prod
 export async function deleteProduct(id: string): Promise<void> {
   await fetch(`${BASE}/products/${id}`, { method: 'DELETE' });
 }
+
+export async function refreshProducts(): Promise<Product[]> {
+  const res = await fetch(`${BASE}/products/refresh`, { method: 'POST' });
+  return res.json() as Promise<Product[]>;
+}

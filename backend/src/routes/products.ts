@@ -25,6 +25,26 @@ router.get('/products', (_req: Request, res: Response) => {
   res.json(readProducts());
 });
 
+router.post('/products/refresh', async (_req: Request, res: Response) => {
+  const products = readProducts();
+  if (products.length === 0) return res.json([]);
+
+  const results = await Promise.allSettled(
+    products.map((p) => p.source === 'manual' ? Promise.resolve(null) : scrape(p.url))
+  );
+
+  const updated = products.map((p, i) => {
+    const r = results[i];
+    if (r.status === 'fulfilled' && r.value) {
+      return { ...p, price: r.value.price, image: r.value.image };
+    }
+    return p;
+  });
+
+  writeProducts(updated);
+  res.json(updated);
+});
+
 router.post('/products', (req: Request, res: Response) => {
   const data = req.body as Omit<Product, 'id' | 'addedAt'>;
   const products = readProducts();
