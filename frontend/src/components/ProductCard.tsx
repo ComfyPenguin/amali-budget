@@ -6,13 +6,14 @@ interface Props {
   product: Product;
   onChange: (updated: Product) => void;
   onDelete: (id: string) => void;
+  highlighted?: boolean;
 }
 
 function formatCurrency(value: number, currency: string) {
   return value.toLocaleString('es-ES', { style: 'currency', currency });
 }
 
-export default function ProductCard({ product, onChange, onDelete }: Props) {
+export default function ProductCard({ product, onChange, onDelete, highlighted }: Props) {
   const [qty, setQty] = useState(product.quantity);
   const [saving, setSaving] = useState(false);
   const committedQty = React.useRef(product.quantity);
@@ -43,7 +44,7 @@ export default function ProductCard({ product, onChange, onDelete }: Props) {
   }
 
   return (
-    <div className="flex flex-col bg-white dark:bg-[#1a1a1a] rounded-xl shadow-card overflow-hidden">
+    <div id={product.id} className={`flex flex-col bg-white dark:bg-[#1a1a1a] rounded-xl shadow-card overflow-hidden${highlighted ? ' card-highlighted' : ''}`}>
       {/* Imagen */}
       <a href={product.url} target="_blank" rel="noopener noreferrer" className="block">
         <img
@@ -65,9 +66,11 @@ export default function ProductCard({ product, onChange, onDelete }: Props) {
             <span className={`inline-block text-[11px] font-semibold px-2 py-0.5 rounded-pill mb-1.5 ${
               product.source === 'amazon'
                 ? 'bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400'
-                : 'bg-red-50 dark:bg-red-950 text-red-600 dark:text-red-400'
+                : product.source === 'aliexpress'
+                ? 'bg-red-50 dark:bg-red-950 text-red-600 dark:text-red-400'
+                : 'bg-yellow-50 dark:bg-yellow-950 text-yellow-600 dark:text-yellow-400'
             }`}>
-              {product.source === 'amazon' ? 'Amazon' : 'AliExpress'}
+              {product.source === 'amazon' ? 'Amazon' : product.source === 'aliexpress' ? 'AliExpress' : 'IKEA'}
             </span>
             <a
               href={product.url}

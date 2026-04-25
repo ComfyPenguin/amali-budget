@@ -3,10 +3,12 @@ import { scrapeUrl, saveProduct } from '../services/api';
 import { Product } from '../types';
 
 interface Props {
+  products: Product[];
   onAdd: (product: Product) => void;
+  onDuplicate: (id: string) => void;
 }
 
-export default function AddProduct({ onAdd }: Props) {
+export default function AddProduct({ products, onAdd, onDuplicate }: Props) {
   const [url, setUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -16,6 +18,15 @@ export default function AddProduct({ onAdd }: Props) {
     setError('');
     const trimmed = url.trim();
     if (!trimmed) return;
+
+    const existing = products.find((p) => p.url === trimmed);
+    if (existing) {
+      setError('Este producto ya está en tu lista.');
+      setUrl('');
+      onDuplicate(existing.id);
+      return;
+    }
+
     setLoading(true);
     try {
       const scraped = await scrapeUrl(trimmed);
@@ -36,7 +47,7 @@ export default function AddProduct({ onAdd }: Props) {
           type="text"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
-          placeholder="Pega una URL de Amazon o AliExpress..."
+          placeholder="Pega una URL de Amazon, AliExpress o IKEA..."
           disabled={loading}
           className="w-full px-4 py-2.5 bg-[#f5f5f5] dark:bg-[#242424] text-[#242424] dark:text-white placeholder-[#898989] rounded-lg text-sm outline-none shadow-inset disabled:opacity-50"
         />

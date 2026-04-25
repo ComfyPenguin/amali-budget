@@ -1,12 +1,5 @@
 import { Theme } from '../hooks/useTheme';
-
-const Logo = () => (
-  <div className="w-7 h-7 rounded-[7px] bg-[#242424] dark:bg-white flex flex-col justify-center items-start gap-[4px] px-[7px] shrink-0">
-    <div className="w-full h-[2px] rounded-full bg-white dark:bg-[#242424]" />
-    <div className="w-3/4 h-[2px] rounded-full bg-white dark:bg-[#242424]" />
-    <div className="w-1/2 h-[2px] rounded-full bg-white dark:bg-[#242424]" />
-  </div>
-);
+import logo from '../assets/logo.png';
 
 const SunIcon = () => (
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -54,9 +47,11 @@ export default function Header({ theme, setTheme }: Props) {
 
         {/* Logo + nombre */}
         <div className="flex items-center gap-2.5">
-          <Logo />
+          <div className="w-8 h-8 rounded-lg shadow-card shrink-0 overflow-hidden">
+            <img src={logo} alt="AmAli Scrapper" className="w-full h-full object-cover" />
+          </div>
           <span className="text-[#242424] dark:text-white font-bold text-base tracking-display">
-            Budget Tracker
+            AmAli Scrapper
           </span>
         </div>
 

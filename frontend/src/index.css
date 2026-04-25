@@ -61,6 +61,24 @@
     rgba(0, 0, 0, 0.4) 0px 4px 8px;
 }
 
+/* Highlight de card duplicado */
+@keyframes card-highlight {
+  0%   { box-shadow: rgba(19,19,22,.7) 0px 1px 5px -4px, rgba(34,42,53,.08) 0px 0px 0px 1px, rgba(34,42,53,.05) 0px 4px 8px 0px, 0 0 0 0px rgba(251,146,60,0); }
+  25%  { box-shadow: rgba(19,19,22,.7) 0px 1px 5px -4px, rgba(34,42,53,.08) 0px 0px 0px 1px, rgba(34,42,53,.05) 0px 4px 8px 0px, 0 0 0 3px rgba(251,146,60,.85); }
+  100% { box-shadow: rgba(19,19,22,.7) 0px 1px 5px -4px, rgba(34,42,53,.08) 0px 0px 0px 1px, rgba(34,42,53,.05) 0px 4px 8px 0px, 0 0 0 3px rgba(251,146,60,0); }
+}
+.dark .card-highlighted {
+  animation-name: card-highlight-dark;
+}
+@keyframes card-highlight-dark {
+  0%   { box-shadow: rgba(0,0,0,.6) 0px 1px 5px -4px, rgba(255,255,255,.06) 0px 0px 0px 1px, rgba(0,0,0,.25) 0px 4px 8px 0px, 0 0 0 0px rgba(251,146,60,0); }
+  25%  { box-shadow: rgba(0,0,0,.6) 0px 1px 5px -4px, rgba(255,255,255,.06) 0px 0px 0px 1px, rgba(0,0,0,.25) 0px 4px 8px 0px, 0 0 0 3px rgba(251,146,60,.85); }
+  100% { box-shadow: rgba(0,0,0,.6) 0px 1px 5px -4px, rgba(255,255,255,.06) 0px 0px 0px 1px, rgba(0,0,0,.25) 0px 4px 8px 0px, 0 0 0 3px rgba(251,146,60,0); }
+}
+.card-highlighted {
+  animation: card-highlight 2s ease-out forwards;
+}
+
 /* Inset (campos de cantidad, toggle activo) */
 .shadow-inset {
   box-shadow: rgba(0, 0, 0, 0.14) 0px 1px 2px 0px inset;

@@ -6,7 +6,7 @@ export interface Product {
   price: number;
   currency: string;
   quantity: number;
-  source: 'amazon' | 'aliexpress';
+  source: 'amazon' | 'aliexpress' | 'ikea';
   addedAt: string;
 }
 
@@ -16,5 +16,5 @@ export interface ScrapedProduct {
   image: string;
   price: number;
   currency: string;
-  source: 'amazon' | 'aliexpress';
+  source: 'amazon' | 'aliexpress' | 'ikea';
 }
