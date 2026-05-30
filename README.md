@@ -2,7 +2,7 @@
 
 Aplicación web personal para construir presupuestos de compra a partir de productos de **Amazon ES** y **AliExpress ES**. Pega una URL, la app extrae automáticamente la foto, el nombre y el precio, y calcula el total a medida que ajustas las cantidades.
 
-![Budget Tracker](https://placehold.co/800x400/f5f5f5/898989?text=Budget+Tracker)
+![Budget Tracker](assets/banner.png)
 
 ---
 
